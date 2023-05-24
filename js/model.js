@@ -53,7 +53,7 @@ class Connect4Model{
         console.log('moving')
         this.board[this.boardCounts[column]][column] = this.players[this.currentPlayer];
         this.boardCounts[column]++;
-        return [column, boardCounts[column-1]];
+        return [column, this.boardCounts[column-1]];
     }
 
     // return whether a column is full
@@ -68,8 +68,27 @@ class Connect4Model{
         this.currentPlayer%=2;
     }
 
-    checkWin(column, row, count){    
+    getWinner(column, row, count){
+        if (count===4) return this.board[column][row];
+        
     };
+
+    // if we find 3 in a row twice along the same axis, we know we have won
+    checkThreeVertical(column, row, count){
+
+    }
+
+    checkThreeHorizontal(column, row, count){
+
+    }
+
+    checkThreeDiagonal(column, row, count){
+
+    }
+
+    getNeighbors(column, row){
+        neighbors = [];
+    }
 }
 
 const main = () => {
