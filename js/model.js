@@ -4,6 +4,8 @@ class Connect4Model{
 
     // create an instance of connect4
     constructor(rows, columns){
+        this.rows = rows;
+        this.columns = columns;
         this.name = "connect 4";
         this.players = ["r","b"];
         this.board = this.createBoard(rows, columns);
@@ -46,6 +48,15 @@ class Connect4Model{
         return false;
     }
 
+    isValidMove(row, col){
+        if (col<this.columns && col>=0){
+            if (row<this.rows && row>=0){
+                return true;
+            }
+        }
+        return false;
+    }
+
     // play a piece given a column 
     // should check if move is valid before calling move
     // returns final position of piece
@@ -68,22 +79,41 @@ class Connect4Model{
         this.currentPlayer%=2;
     }
 
-    getWinner(column, row, count){
-        if (count===4) return this.board[column][row];
-        
-    };
-
-    // if we find 3 in a row twice along the same axis, we know we have won
-    checkThreeVertical(column, row, count){
-
+    /* takes a board position and follows it to its
+     last adjacent matching board position given direction
+     params: 
+        origin: [x,y] 
+        direction: [xdiff, ydiff]
+    */
+    seekEnd(origin, direction){
+        // calculate the next position on the board to check based on the origin and direction
+        let next = [origin[0]+direction[0], origin[1]+direction[1]];
+        console.log(`checking next ${next} against origin ${origin}`);
+        // make sure the move is valid before trying to access the board at the indices of next
+        if (!(this.isValidMove(next[0],next[1]))) {
+            return origin;
+        }
+        // if the next position on the board is the same value as the origin, recurse
+        if (this.board[next[0]][next[1]]===this.board[origin[0]][origin[1]]) {
+            console.log('recursing');
+            return this.seekEnd(next, direction);
+        }
+        // otherwise, we know the caller is the last link in the chain
+        console.log('end of the line');
+        return origin;
     }
 
-    checkThreeHorizontal(column, row, count){
-
-    }
-
-    checkThreeDiagonal(column, row, count){
-
+    // once an end is found, seekwin is called from the end
+    // with the opposite direction to see if there are 4 in a row
+    seekWin(origin, direction, count){
+        console.log(count);
+        if (count===4) return true;
+        let next = [origin[0]+direction[0], origin[1]+direction[1]];
+        if (!(this.isValidMove(next[0],next[1]))) return false;
+        if (this.board[next[0]][next[1]]===this.board[origin[0]][origin[1]]) {
+            return this.seekWin(next, direction, count + 1);
+        }
+        return false;
     }
 
     getNeighbors(column, row){
@@ -95,9 +125,13 @@ const main = () => {
     let c4game = new Connect4Model(6, 10);
     console.log(c4game.printBoard());
     c4game.move(5);
-    c4game.switchTurn();
     c4game.move(6);
+    c4game.move(7);
     console.log(c4game.printBoard());
+    console.log('testing seekEnd, expect [0,7]');
+    let end = c4game.seekEnd([0, 5],[0, 1]);
+    console.log(end);
+    console.log(c4game.seekWin(end, [0,-1], 0));
 }
 
 main();
