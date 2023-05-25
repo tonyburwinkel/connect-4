@@ -2,10 +2,11 @@
   "name": "connect-4",
   "version": "1.0.0",
   "description": "connect 4 with jquery",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "model": "node js/model.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node js/test.js"
   },
   "author": "tony burwinkel",
   "license": "MIT"

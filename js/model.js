@@ -1,6 +1,6 @@
 // a class that provides all the functionality
 // of a game of connect 4
-class Connect4Model{
+export class Connect4Model{
 
     // create an instance of connect4
     constructor(rows, columns){
@@ -64,6 +64,7 @@ class Connect4Model{
         console.log('moving')
         this.board[this.boardCounts[column]][column] = this.players[this.currentPlayer];
         this.boardCounts[column]++;
+        console.log([column, this.boardCounts[column-1]])
         return [column, this.boardCounts[column-1]];
     }
 
@@ -88,7 +89,7 @@ class Connect4Model{
     seekEnd(origin, direction){
         // calculate the next position on the board to check based on the origin and direction
         let next = [origin[0]+direction[0], origin[1]+direction[1]];
-        console.log(`checking next ${next} against origin ${origin}`);
+        //console.log(`checking next ${next} against origin ${origin}`);
         // make sure the move is valid before trying to access the board at the indices of next
         if (!(this.isValidMove(next[0],next[1]))) {
             return origin;
@@ -105,6 +106,7 @@ class Connect4Model{
 
     // once an end is found, seekwin is called from the end
     // with the opposite direction to see if there are 4 in a row
+    // count acts as an accumulator
     seekWin(origin, direction, count){
         console.log(count);
         if (count===4) return true;
@@ -116,9 +118,33 @@ class Connect4Model{
         return false;
     }
 
-    getNeighbors(column, row){
-        neighbors = [];
+    // return a list of the coordinates of the neighbors of a given
+    // index on the board
+    getNeighbors(row, column){
+        return [[row-1,column-1],
+                [row-1,column],
+                [row-1,column+1],
+                [row,column-1],
+                [row,column+1],
+                [row+1,column-1],
+                [row+1,column],
+                [row+1,column+1]]
     }
+
+    // takes the last move made and checks to see if it is a winner
+    // returns a player if the move won
+    // otherwise returns null
+    checkWin(move){
+        // call seekEnd on each neighbor with appropriate direction
+        for(let i=-1;i<2;i++){
+            for (let j=-1;j<2;j++){
+                let end=this.seekEnd(move, [i,j])
+                let win=this.seekWin(end,[i*-1,j*-1],1)
+                if (win) return this.board[move[0], move[1]];
+                }
+            }
+            return null;
+        }
 }
 
 const main = () => {
@@ -127,11 +153,12 @@ const main = () => {
     c4game.move(5);
     c4game.move(6);
     c4game.move(7);
+    let move = c4game.move(8);
+    console.log(move);
     console.log(c4game.printBoard());
-    console.log('testing seekEnd, expect [0,7]');
-    let end = c4game.seekEnd([0, 5],[0, 1]);
-    console.log(end);
-    console.log(c4game.seekWin(end, [0,-1], 0));
+    console.log(c4game.checkWin(move));
 }
 
-main();
+//main();
+
+export default Connect4Model;
