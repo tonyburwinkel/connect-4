@@ -1,6 +1,6 @@
 // a class that provides all the functionality
 // of a game of connect 4
-export class Connect4Model{
+class Connect4Model{
 
     // create an instance of connect4
     constructor(rows, columns){
@@ -43,8 +43,8 @@ export class Connect4Model{
     }
 
     // return whether a position in the board is occupied
-    isOccupied(col, row) {
-        if (this.board[col][row])return true;
+    isOccupied(row, col) {
+        if (this.board[row][col])return true;
         return false;
     }
 
@@ -61,11 +61,10 @@ export class Connect4Model{
     // should check if move is valid before calling move
     // returns final position of piece
     move(column) {
-        console.log('moving')
         this.board[this.boardCounts[column]][column] = this.players[this.currentPlayer];
         this.boardCounts[column]++;
-        console.log([column, this.boardCounts[column-1]])
-        return [column, this.boardCounts[column-1]];
+        //console.log([column, this.boardCounts[column]-1])
+        return [column, this.boardCounts[column]-1];
     }
 
     // return whether a column is full
@@ -118,19 +117,6 @@ export class Connect4Model{
         return false;
     }
 
-    // return a list of the coordinates of the neighbors of a given
-    // index on the board
-    getNeighbors(row, column){
-        return [[row-1,column-1],
-                [row-1,column],
-                [row-1,column+1],
-                [row,column-1],
-                [row,column+1],
-                [row+1,column-1],
-                [row+1,column],
-                [row+1,column+1]]
-    }
-
     // takes the last move made and checks to see if it is a winner
     // returns a player if the move won
     // otherwise returns null
@@ -161,6 +147,7 @@ const main = () => {
     console.log(c4game.checkWin(move));
 }
 
-main();
+//main();
 
-export default Connect4Model;
+//export default Connect4Model;
+module.exports = Connect4Model;
