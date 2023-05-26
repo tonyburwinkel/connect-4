@@ -135,6 +135,7 @@ export class Connect4Model{
     // returns a player if the move won
     // otherwise returns null
     checkWin(move){
+        console.log(`move being checked: ${move}`)
         // call seekEnd on each neighbor with appropriate direction
         for(let i=-1;i<2;i++){
             for (let j=-1;j<2;j++){
@@ -156,9 +157,10 @@ const main = () => {
     let move = c4game.move(8);
     console.log(move);
     console.log(c4game.printBoard());
+    console.log(c4game.seekWin(move, [-1,0]));
     console.log(c4game.checkWin(move));
 }
 
-//main();
+main();
 
 export default Connect4Model;

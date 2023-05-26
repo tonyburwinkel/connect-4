@@ -9,5 +9,8 @@
     "test": "node js/test.js"
   },
   "author": "tony burwinkel",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.5.0"
+  }
 }
