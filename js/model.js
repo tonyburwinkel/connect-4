@@ -137,4 +137,20 @@ class Connect4Model{
         }
 }
 
+const main = () => {
+    let c4game = new Connect4Model(6, 10);
+    console.log(c4game.printBoard());
+    c4game.move(5);
+    c4game.move(6);
+    c4game.move(7);
+    let move = c4game.move(8);
+    console.log(move);
+    console.log(c4game.printBoard());
+    console.log(c4game.seekWin(move, [-1,0]));
+    console.log(c4game.checkWin(move));
+}
+
+//main();
+
+//export default Connect4Model;
 module.exports = Connect4Model;

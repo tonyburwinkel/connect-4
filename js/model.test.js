@@ -46,5 +46,5 @@ test('test seekWin', ()=>{
 test('test checkWin', ()=>{
     let move;
     for (let i=0;i<4;i++) move=c4.move(0);
-    expect(c4.seekWin(move, [0,-1],1)).toBe(true);
+    expect(c4.checkWin(move, )).toBe('r');
 })
