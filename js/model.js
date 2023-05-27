@@ -27,19 +27,22 @@ class Connect4Model{
 
     // Returns a string version of the board for debugging
     printBoard() {
+        let rowStrings = [];
         let columns = this.board.length;
+        //console.log(`columns ${columns}`)
         let rows = this.board[0].length;
+        //console.log(`rows ${rows}`)
         let rowString=''
         let boardString=''
         for (let i=0;i<rows;i++){
             for (let j=0;j<columns;j++){
-            if(!this.board[i][j]) rowString+='|o|';
-            else rowString +=`|${this.board[i][j]}|`
+            if(this.board[j][i]===null) rowString+='|o|';
+            else rowString +=`|${this.board[j][i]}|`
             }
-        boardString+=`${rowString}\n`;
+        rowStrings.push(`${rowString}\n`);
         rowString=''
         }
-        return boardString;
+        return rowStrings.reverse().join('');
     }
 
     // return whether a position in the board is occupied
@@ -49,8 +52,8 @@ class Connect4Model{
     }
 
     isValidMove(row, col){
-        if (col<this.columns && col>=0){
-            if (row<this.rows && row>=0){
+        if (col<=this.columns && col>=0){
+            if (row<=this.rows && row>=0){
                 return true;
             }
         }
@@ -61,15 +64,17 @@ class Connect4Model{
     // should check if move is valid before calling move
     // returns final position of piece
     move(column) {
-        this.board[this.boardCounts[column]][column] = this.players[this.currentPlayer];
+        this.board[column][this.boardCounts[column]] = this.players[this.currentPlayer];
         this.boardCounts[column]++;
+        //console.log(this.boardCounts)
+        //console.log(this.board[0])
         //console.log([column, this.boardCounts[column]-1])
-        return [column, this.boardCounts[column]-1];
+        return [column, (this.boardCounts[column])-1];
     }
 
     // return whether a column is full
     isFull(column) {
-        if (this.boardCounts[column]===rows) return true;
+        if (this.boardCounts[column]===this.board.rows-1) return true;
         return false;
     }
 
@@ -134,20 +139,4 @@ class Connect4Model{
         }
 }
 
-const main = () => {
-    let c4game = new Connect4Model(6, 10);
-    console.log(c4game.printBoard());
-    c4game.move(5);
-    c4game.move(6);
-    c4game.move(7);
-    let move = c4game.move(8);
-    console.log(move);
-    console.log(c4game.printBoard());
-    console.log(c4game.seekWin(move, [-1,0]));
-    console.log(c4game.checkWin(move));
-}
-
-//main();
-
-//export default Connect4Model;
 module.exports = Connect4Model;

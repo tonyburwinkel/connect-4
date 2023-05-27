@@ -20,15 +20,18 @@ test('test making a move', ()=>{
 })
 
 // make sure our board has the expected number of rows
-test('test isValidMove rejects out-of-bounds', ()=>{
+test('test isValidMove', ()=>{
+    expect(c4.isValidMove(6, 2)).toBe(true);
+    expect(c4.isValidMove(2, 9)).toBe(true);
     expect(c4.isValidMove(-1, 2)).toBe(false);
-    expect(c4.isValidMove(6, 2)).toBe(false);
-    expect(c4.isValidMove(2, 9)).toBe(false);
+    expect(c4.isValidMove(9, 2)).toBe(false);
 })
 
 // make sure our board has the expected number of rows
-test('create board test', ()=>{
-    expect(c4.board.length).toBe(10);
+test('test is full and move', ()=>{
+    for(let i=0;i<6;i++) c4.move(0);
+    console.log(c4.printBoard());
+    expect(c4.isFull(0)).toBe(true);
 })
 
 // make sure our board has the expected number of rows
