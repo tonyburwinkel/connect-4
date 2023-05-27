@@ -29,9 +29,7 @@ class Connect4Model{
     printBoard() {
         let rowStrings = [];
         let columns = this.board.length;
-        //console.log(`columns ${columns}`)
         let rows = this.board[0].length;
-        //console.log(`rows ${rows}`)
         let rowString=''
         let boardString=''
         for (let i=0;i<rows;i++){
@@ -74,7 +72,8 @@ class Connect4Model{
 
     // return whether a column is full
     isFull(column) {
-        if (this.boardCounts[column]===this.board.rows-1) return true;
+        console.log(this.boardCounts[column])
+        if (this.boardCounts[column]===this.rows) return true;
         return false;
     }
 
@@ -93,7 +92,6 @@ class Connect4Model{
     seekEnd(origin, direction){
         // calculate the next position on the board to check based on the origin and direction
         let next = [origin[0]+direction[0], origin[1]+direction[1]];
-        //console.log(`checking next ${next} against origin ${origin}`);
         // make sure the move is valid before trying to access the board at the indices of next
         if (!(this.isValidMove(next[0],next[1]))) {
             return origin;
