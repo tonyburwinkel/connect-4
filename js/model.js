@@ -110,7 +110,6 @@ class Connect4Model{
     // with the opposite direction to see if there are 4 in a row
     // count acts as an accumulator
     seekWin(origin, direction, count){
-        console.log(count);
         if (count===4) return true;
         let next = [origin[0]+direction[0], origin[1]+direction[1]];
         if (!(this.isValidMove(next[0],next[1]))) return false;
@@ -130,27 +129,12 @@ class Connect4Model{
             for (let j=-1;j<2;j++){
                 let end=this.seekEnd(move, [i,j])
                 let win=this.seekWin(end,[i*-1,j*-1],1)
-                if (win) return this.board[move[0], move[1]];
+                if (win) return this.board[move[0]][move[1]];
                 }
             }
             return null;
         }
 }
-
-const main = () => {
-    let c4game = new Connect4Model(6, 10);
-    console.log(c4game.printBoard());
-    c4game.move(5);
-    c4game.move(6);
-    c4game.move(7);
-    let move = c4game.move(8);
-    console.log(move);
-    console.log(c4game.printBoard());
-    console.log(c4game.seekWin(move, [-1,0]));
-    console.log(c4game.checkWin(move));
-}
-
-//main();
 
 //export default Connect4Model;
 module.exports = Connect4Model;
