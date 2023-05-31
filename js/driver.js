@@ -31,6 +31,8 @@ const main = () => {
         isGameOver=c4.checkWin(move);
     
     rl.close();
+    console.log(c4.printBoard());
+    console.log(`winner is ${isGameOver}`)
 
     }
 

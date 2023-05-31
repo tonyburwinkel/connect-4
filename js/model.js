@@ -94,7 +94,6 @@ class Connect4Model{
         }
         // if the next position on the board is the same value as the origin, recurse
         if (this.board[next[0]][next[1]]===this.board[origin[0]][origin[1]]) {
-            console.log(`next ${next}`)
             return this.seekEnd(next, direction);
         }
         // otherwise, we know the caller is the last link in the chain
