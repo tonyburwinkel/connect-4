@@ -14,21 +14,25 @@ test('create board test', ()=>{
 
 test('test making a move', ()=>{
     let move = c4.move(0);
-    console.log(move)
     expect(move).toStrictEqual([0,0]);
 })
 
 test('test isValidMove', ()=>{
-    expect(c4.isValidMove(6, 2)).toBe(true);
-    expect(c4.isValidMove(2, 9)).toBe(true);
-    expect(c4.isValidMove(-1, 2)).toBe(false);
-    expect(c4.isValidMove(9, 2)).toBe(false);
+    expect(c4.isValidMove(6)).toBe(true);
+    expect(c4.isValidMove(2)).toBe(true);
+    expect(c4.isValidMove(-1)).toBe(false);
+    expect(c4.isValidMove(10)).toBe(false);
 })
 
 test('test is full and move', ()=>{
     for(let i=0;i<6;i++) c4.move(0);
-    console.log(c4.printBoard());
     expect(c4.isFull(0)).toBe(true);
+})
+
+test('test switch player', ()=>{
+    expect(c4.players[c4.currentPlayer]).toBe('r');
+    c4.switchTurn();
+    expect(c4.players[c4.currentPlayer]).toBe('b');
 })
 
 test('test seekEnd', ()=>{

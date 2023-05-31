@@ -49,9 +49,9 @@ class Connect4Model{
         return false;
     }
 
-    isValidMove(row, col){
+    isValidMove(col){
         if (col<=this.columns && col>=0){
-            if (row<=this.rows && row>=0){
+            if (this.boardCounts[col]<this.rows){
                 return true;
             }
         }
@@ -64,15 +64,11 @@ class Connect4Model{
     move(column) {
         this.board[column][this.boardCounts[column]] = this.players[this.currentPlayer];
         this.boardCounts[column]++;
-        //console.log(this.boardCounts)
-        //console.log(this.board[0])
-        //console.log([column, this.boardCounts[column]-1])
         return [column, (this.boardCounts[column])-1];
     }
 
     // return whether a column is full
     isFull(column) {
-        console.log(this.boardCounts[column])
         if (this.boardCounts[column]===this.rows) return true;
         return false;
     }
@@ -98,11 +94,10 @@ class Connect4Model{
         }
         // if the next position on the board is the same value as the origin, recurse
         if (this.board[next[0]][next[1]]===this.board[origin[0]][origin[1]]) {
-            console.log('recursing');
+            console.log(`next ${next}`)
             return this.seekEnd(next, direction);
         }
         // otherwise, we know the caller is the last link in the chain
-        console.log('end of the line');
         return origin;
     }
 
@@ -123,10 +118,10 @@ class Connect4Model{
     // returns a player if the move won
     // otherwise returns null
     checkWin(move){
-        console.log(`move being checked: ${move}`)
         // call seekEnd on each neighbor with appropriate direction
         for(let i=-1;i<2;i++){
             for (let j=-1;j<2;j++){
+                if (i===0 && j===0) continue;
                 let end=this.seekEnd(move, [i,j])
                 let win=this.seekWin(end,[i*-1,j*-1],1)
                 if (win) return this.board[move[0]][move[1]];

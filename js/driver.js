@@ -1,15 +1,39 @@
 const Connect4Model = require('./model.js');
+const readline = require('readline');
+const prompt = require('prompt-sync')();
 
 const main = () => {
+
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
+
     c4 = new Connect4Model(6,10);
-    c4.move(5);
-    c4.move(6);
-    c4.move(6);
-    c4.move(6);
-    let move=c4.move(6);
-    console.log(c4.printBoard())
-    let end = c4.seekEnd(move, [0,1]);
-    console.log(c4.seekWin(end, [0,-1], 1));
+
+    let isGameOver = false;
+
+    while(!isGameOver){
+        console.log(c4.printBoard());
+
+        let move;
+        let valid = false;
+        while(!valid){
+            choice = parseInt(prompt('choose a column: '));
+            if(c4.isValidMove(choice)) valid = true;
+            move=choice;
+        }
+
+        console.log(move);
+        move=c4.move(move);
+        c4.switchTurn();
+
+        isGameOver=c4.checkWin(move);
+    
+    rl.close();
+
+    }
+
 }
 
 main();
