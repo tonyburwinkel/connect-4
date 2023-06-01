@@ -79,6 +79,10 @@ class Connect4Model{
         this.currentPlayer%=2;
     }
 
+    getPlayer() {
+        return this.players[this.currentPlayer];
+    }
+
     /* takes a board position and follows it to its
      last adjacent matching board position given direction
      params: 
