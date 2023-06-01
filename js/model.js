@@ -64,7 +64,7 @@ class Connect4Model{
     move(column) {
         this.board[column][this.boardCounts[column]] = this.players[this.currentPlayer];
         this.boardCounts[column]++;
-        return [column, (this.boardCounts[column])-1];
+        return [Number(column), (this.boardCounts[column])-1];
     }
 
     // return whether a column is full
@@ -131,4 +131,6 @@ class Connect4Model{
 }
 
 //export default Connect4Model;
-module.exports = Connect4Model;
+//module.exports = Connect4Model;
+
+window.Connect4Model = Connect4Model;
