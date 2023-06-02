@@ -19,20 +19,23 @@ $(document).ready(function(){
         // add a click listener to each row that
         // makes a move on the board and renders the move
         column.click(()=>{
-            let move=c4.move(`${i}`);
-            let selected=$(`#c-${move[0]}r-${move[1]}`);
-                switch(c4.getPlayer()) {
-                    case 'r':
-                        selected.css('background-color', 'red');
-                        break;
-                    case 'b': 
-                        selected.css('background-color', 'black');
-                        break;
-                }
-            console.log(c4.printBoard());
-            c4.switchTurn();
-            let winner=c4.checkWin(move);
-            if(winner) $('#header').append(`<p>${winner} wins!</p>`);
+            if (c4.isValidMove(i)) {
+                let move=c4.move(`${i}`);
+                let selected=$(`#c-${move[0]}r-${move[1]}`);
+                    switch(c4.getPlayer()) {
+                        case 'r':
+                            selected.css('background-color', 'red');
+                            break;
+                        case 'b': 
+                            selected.css('background-color', 'black');
+                            break;
+                    }
+                console.log(c4.printBoard());
+                c4.switchTurn();
+                let winner=c4.checkWin(move);
+                console.log(`winner: ${winner}`);
+                if(winner) $('#header').append(`<p>${winner} wins!</p>`);
+                }else console.log('invalid move');
             })
         $("#game-container").append(column);
 
