@@ -70,9 +70,11 @@ const makeMove = (rowNum) => {
         console.log(`checking ${move}`);
         let winner = c4.checkWin(move);
         console.log(`winner is ${winner}`)
-        winner? 
-            $('#header').append(`<p>${winner} wins!</p>`): 
-            console.log('no winner.')
+        if(winner){
+            $('#banner').text(`Winner: ${winner}`);
+            $('#banner').css('visibility','visible');
+            reset();
+        }
     } 
     else console.log('row full');
 }
@@ -93,9 +95,20 @@ const makeBoard = (c4) => {
     }
 }
 
+const reset = () => {
+    $('#game-container').empty(); 
+    c4 = new window.Connect4Model(6,10);
+    makeBoard(c4);
+}
+
 $(document).ready(function(){
     c4 = new window.Connect4Model(6, 10);
     console.log('howdy pard')
     makeBoard(c4);
+
+    $('#banner').css('visibility', 'hidden');
+
+
+    $('#reset').click(reset);
 
 })

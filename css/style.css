@@ -1,52 +1,55 @@
+body {
+    background-color: aquamarine;
+}
+
 #app {
+    margin-top: 10vh;
     margin-left: auto;
     margin-right: auto;
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    max-width: 90%;
 }
 
 #game-container{
     border-radius: 15px;
     display: flex;
     flex-direction: column;
+    background-color: gray;
+    max-width: 750px;
+}
+
+.leg{
+    background-color: black;
+    width:25px;
+    border-radius: 15px;
 }
 
 .hover-row {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    background-color: white;
+    background-color: aquamarine;
 }
 
 .hover-space {
-    background-color: white;
+    background-color: aquamarine;
     height:50px;
     width:50px;
     margin:10px;
-    flex-grow: 1;
     border-radius: 50%;
 }
 
-/*
-.hover-space:hover {
-    background-color: gray;
-}
-*/
-
 .space {
-    background-color: white;
+    background-color: aquamarine;
     height:50px;
     width:50px;
     margin:10px;
-    flex-grow: 1;
     border-radius: 50%;
 }
 
 .row {
-    background-color: gray;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    flex-grow: 1;
 }
