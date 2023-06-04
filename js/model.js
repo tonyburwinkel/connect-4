@@ -49,6 +49,11 @@ class Connect4Model{
         return false;
     }
 
+    isValidSpace(row, col){
+        return (row<=this.rows && row >=0 && col<=this.columns && col>=0)
+    }
+
+    // should just check if the column is full
     isValidMove(col){
         if (col<=this.columns && col>=0){
             if (this.boardCounts[col]<this.rows){
@@ -93,7 +98,7 @@ class Connect4Model{
         // calculate the next position on the board to check based on the origin and direction
         let next = [origin[0]+direction[0], origin[1]+direction[1]];
         // make sure the move is valid before trying to access the board at the indices of next
-        if (!(this.isValidMove(next[0],next[1]))) {
+        if (!(this.isValidSpace(next[0],next[1]))) {
             return origin;
         }
         // if the next position on the board is the same value as the origin, recurse
@@ -110,7 +115,7 @@ class Connect4Model{
     seekWin(origin, direction, count){
         if (count===4) return true;
         let next = [origin[0]+direction[0], origin[1]+direction[1]];
-        if (!(this.isValidMove(next[0],next[1]))) return false;
+        if (!(this.isValidSpace(next[0],next[1]))) return false;
         if (this.board[next[0]][next[1]]===this.board[origin[0]][origin[1]]) {
             return this.seekWin(next, direction, count + 1);
         }
@@ -126,7 +131,9 @@ class Connect4Model{
             for (let j=-1;j<2;j++){
                 if (i===0 && j===0) continue;
                 let end=this.seekEnd(move, [i,j])
+                console.log(`end from model ${end}`)
                 let win=this.seekWin(end,[i*-1,j*-1],1)
+                console.log(`winner from model ${win}`)
                 if (win) return this.board[move[0]][move[1]];
                 }
             }

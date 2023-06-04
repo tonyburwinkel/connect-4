@@ -5,12 +5,10 @@
     flex-direction: column;
     justify-content: center;
     max-width: 90%;
-    border: 1px solid green;
-    border-radius: 15px;
 }
 
 #game-container{
-    padding:10px;
+    border-radius: 15px;
     display: flex;
     flex-direction: column;
 }
@@ -30,6 +28,13 @@
     flex-grow: 1;
     border-radius: 50%;
 }
+
+/*
+.hover-space:hover {
+    background-color: gray;
+}
+*/
+
 .space {
     background-color: white;
     height:50px;
