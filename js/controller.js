@@ -84,7 +84,7 @@ const renderTurn = (spaceNum) => {
 }
 
 const renderBlank = (spaceNum) => {
-    $(`#c-${spaceNum}r-6`).css("background-color","white");
+    $(`#c-${spaceNum}r-6`).css("background-color","aquamarine");
 }
 
 const makeBoard = (c4) => {
