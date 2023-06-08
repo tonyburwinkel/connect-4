@@ -99,8 +99,6 @@ class Connect4Model {
         let next = [origin[0] + direction[0], origin[1] + direction[1]];
         // make sure the move is valid before trying to access the board at the indices of next
         if (!(this.isValidSpace(next[0], next[1]))) {
-            console.log(`${origin[0]} col, ${origin[1]} row`)
-            console.log('invalid space');
             return origin;
         }
         // if the next position on the board is the same value as the origin, recurse

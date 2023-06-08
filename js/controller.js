@@ -3,7 +3,7 @@ VIEW:
     methods:    renderMove(row, column)
                 renderBoard(rows, columns)
                 showWinner(winner)
-                clearBoard()
+                reset()
 
 CONTROLLER:
     go(MODEL, VIEW);
@@ -53,36 +53,52 @@ clicking one of these makes a move on the board,
 both the model and the view
 */
 const makeMove = (rowNum) => {
+    let move;
     if (c4.isValidMove(rowNum)){
-        let move=c4.move(`${rowNum}`);
+        move=c4.move(`${rowNum}`);
         let selected=$(`#c-${move[0]}r-${move[1]}`);
-        switch(c4.getPlayer()) {
-            case 'r':
-                selected.css('background-color', 'red');
-                break;
-            case 'b': 
+        c4.getPlayer()==='r'? 
+                selected.css('background-color', 'red'):
                 selected.css('background-color', 'black');
-                break;
         }
-        console.log(c4.printBoard());
         c4.switchTurn();
         renderTurn(move[0])
-        console.log(`checking ${move}`);
         let winner = c4.checkWin(move);
-        console.log(`winner is ${winner}`)
         if(winner){
-            $('#banner').text(`Winner: ${winner}`);
-            $('#banner').css('visibility','visible');
-            reset();
+            gameOver(winner);
         }
     } 
-    else console.log('row full');
+
+const gameOver = (winner) => {
+    let color;
+    winner === 'r'?
+        color='Red':color='Black';
+    $('#banner')
+        .text(`Winner: ${color}`)
+        .css({
+            'visibility': 'visible',
+            'cursor': 'pointer'
+        })
+        .click(reset);
+    $('#header')
+        .css({
+            'background-color': color,
+            'transition' : 'background-color 1s'
+            })
+        .on("mouseenter" , () => {
+            $('#header').css('background-color','gray');
+            })
+        .on("mouseleave" , () => {
+            $('#header').css('background-color', color);
+            })
+    $('.hover-space').off('click');
 }
 
 const renderTurn = (spaceNum) => {
     $(`#c-${spaceNum}r-6`).css("background-color",`${c4.getPlayer()==='r'?'red':'black'}`)
 }
 
+// handler for resetting hover space to bg color
 const renderBlank = (spaceNum) => {
     $(`#c-${spaceNum}r-6`).css("background-color","aquamarine");
 }
@@ -90,12 +106,13 @@ const renderBlank = (spaceNum) => {
 const makeBoard = (c4) => {
     for(let i=c4.rows;i>=0;i--){
         let row = makeRow(i, c4.columns, c4.rows);
-        console.log(row)
         $("#game-container").append(row);
     }
 }
 
 const reset = () => {
+    $('#banner').css('visibility', 'hidden');
+    $('#header').css('background-color', 'aquamarine');
     $('#game-container').empty(); 
     c4 = new window.Connect4Model(6,10);
     makeBoard(c4);
@@ -103,11 +120,9 @@ const reset = () => {
 
 $(document).ready(function(){
     c4 = new window.Connect4Model(6, 10);
-    console.log('howdy pard')
     makeBoard(c4);
 
     $('#banner').css('visibility', 'hidden');
-
 
     $('#reset').click(reset);
 
