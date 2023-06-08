@@ -112,7 +112,9 @@ const makeBoard = (c4) => {
 
 const reset = () => {
     $('#banner').css('visibility', 'hidden');
-    $('#header').css('background-color', 'aquamarine');
+    $('#header')
+        .off()
+        .css('background-color', 'aquamarine');
     $('#game-container').empty(); 
     c4 = new window.Connect4Model(6,10);
     makeBoard(c4);
