@@ -1,25 +1,25 @@
 // a class that provides all the functionality
 // of a game of connect 4
-class Connect4Model{
+class Connect4Model {
 
     // create an instance of connect4
-    constructor(rows, columns){
+    constructor(rows, columns) {
         this.rows = rows;
         this.columns = columns;
         this.name = "connect 4";
-        this.players = ["r","b"];
+        this.players = ["r", "b"];
         this.board = this.createBoard(rows, columns);
         this.boardCounts = Array(columns).fill(0);
         this.currentPlayer = 0;
     }
 
     // Initialize the board
-    createBoard = (rows, columns) =>{
+    createBoard = (rows, columns) => {
         let board = [];
         for (let i = 0; i < columns; i++) {
-        board[i] = [];
-        for (let j = 0; j < rows; j++) {
-            board[i][j] = null; 
+            board[i] = [];
+            for (let j = 0; j < rows; j++) {
+                board[i][j] = null;
             }
         }
         return board;
@@ -30,33 +30,33 @@ class Connect4Model{
         let rowStrings = [];
         let columns = this.board.length;
         let rows = this.board[0].length;
-        let rowString=''
-        let boardString=''
-        for (let i=0;i<rows;i++){
-            for (let j=0;j<columns;j++){
-            if(this.board[j][i]===null) rowString+='|o|';
-            else rowString +=`|${this.board[j][i]}|`
+        let rowString = ''
+        let boardString = ''
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < columns; j++) {
+                if (this.board[j][i] === null) rowString += '|o|';
+                else rowString += `|${this.board[j][i]}|`
             }
-        rowStrings.push(`${rowString}\n`);
-        rowString=''
+            rowStrings.push(`${rowString}\n`);
+            rowString = ''
         }
         return rowStrings.reverse().join('');
     }
 
     // return whether a position in the board is occupied
     isOccupied(row, col) {
-        if (this.board[row][col])return true;
+        if (this.board[row][col]) return true;
         return false;
     }
 
-    isValidSpace(row, col){
-        return (row<=this.rows && row >=0 && col<=this.columns && col>=0)
+    isValidSpace(col, row) {
+        return (row < this.rows && row >= 0 && col < this.columns && col >= 0)
     }
 
     // should just check if the column is full
-    isValidMove(col){
-        if (col<=this.columns && col>=0){
-            if (this.boardCounts[col]<this.rows){
+    isValidMove(col) {
+        if (col <= this.columns && col >= 0) {
+            if (this.boardCounts[col] < this.rows) {
                 return true;
             }
         }
@@ -69,19 +69,19 @@ class Connect4Model{
     move(column) {
         this.board[column][this.boardCounts[column]] = this.players[this.currentPlayer];
         this.boardCounts[column]++;
-        return [Number(column), (this.boardCounts[column])-1];
+        return [Number(column), (this.boardCounts[column]) - 1];
     }
 
     // return whether a column is full
     isFull(column) {
-        if (this.boardCounts[column]===this.rows) return true;
+        if (this.boardCounts[column] === this.rows) return true;
         return false;
     }
 
     // change the current player's turn
     switchTurn() {
         this.currentPlayer++;
-        this.currentPlayer%=2;
+        this.currentPlayer %= 2;
     }
 
     getPlayer() {
@@ -94,15 +94,17 @@ class Connect4Model{
         origin: [x,y] 
         direction: [xdiff, ydiff]
     */
-    seekEnd(origin, direction){
+    seekEnd(origin, direction) {
         // calculate the next position on the board to check based on the origin and direction
-        let next = [origin[0]+direction[0], origin[1]+direction[1]];
+        let next = [origin[0] + direction[0], origin[1] + direction[1]];
         // make sure the move is valid before trying to access the board at the indices of next
-        if (!(this.isValidSpace(next[0],next[1]))) {
+        if (!(this.isValidSpace(next[0], next[1]))) {
+            console.log(`${origin[0]} col, ${origin[1]} row`)
+            console.log('invalid space');
             return origin;
         }
         // if the next position on the board is the same value as the origin, recurse
-        if (this.board[next[0]][next[1]]===this.board[origin[0]][origin[1]]) {
+        if (this.board[next[0]][next[1]] === this.board[origin[0]][origin[1]]) {
             return this.seekEnd(next, direction);
         }
         // otherwise, we know the caller is the last link in the chain
@@ -112,11 +114,11 @@ class Connect4Model{
     // once an end is found, seekwin is called from the end
     // with the opposite direction to see if there are 4 in a row
     // count acts as an accumulator
-    seekWin(origin, direction, count){
-        if (count===4) return true;
-        let next = [origin[0]+direction[0], origin[1]+direction[1]];
-        if (!(this.isValidSpace(next[0],next[1]))) return false;
-        if (this.board[next[0]][next[1]]===this.board[origin[0]][origin[1]]) {
+    seekWin(origin, direction, count) {
+        if (count === 4) return true;
+        let next = [origin[0] + direction[0], origin[1] + direction[1]];
+        if (!(this.isValidSpace(next[0], next[1]))) return false;
+        if (this.board[next[0]][next[1]] === this.board[origin[0]][origin[1]]) {
             return this.seekWin(next, direction, count + 1);
         }
         return false;
@@ -125,20 +127,18 @@ class Connect4Model{
     // takes the last move made and checks to see if it is a winner
     // returns a player if the move won
     // otherwise returns null
-    checkWin(move){
+    checkWin(move) {
         // call seekEnd on each neighbor with appropriate direction
-        for(let i=-1;i<2;i++){
-            for (let j=-1;j<2;j++){
-                if (i===0 && j===0) continue;
-                let end=this.seekEnd(move, [i,j])
-                console.log(`end from model ${end}`)
-                let win=this.seekWin(end,[i*-1,j*-1],1)
-                console.log(`winner from model ${win}`)
+        for (let i = -1; i < 2; i++) {
+            for (let j = -1; j < 2; j++) {
+                if (i === 0 && j === 0) continue;
+                let end = this.seekEnd(move, [i, j])
+                let win = this.seekWin(end, [i * -1, j * -1], 1)
                 if (win) return this.board[move[0]][move[1]];
-                }
             }
-            return null;
         }
+        return null;
+    }
 }
 
 //export default Connect4Model;
